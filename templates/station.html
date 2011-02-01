@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head %}Station {{ station }}{% endblock %}
+
+
+{% block extrahead %}
+	<script>
+		var locationString = '{{ mapping.stationname }}';
+		var city = locationString.split('-')[0];
+		var street = locationString.split('-')[1];
+		
+		$(document).ready(function() {
+			var map = new GMap2(document.getElementById("map"));
+			var geocoder = new GClientGeocoder();
+
+		  geocoder.getLatLng(
+		    "" + street + ',' + city + ',the Netherlands',
+		    function(point) {
+		      if (point) {
+		        map.setCenter(point, 13);
+		        var marker = new GMarker(point);
+		        map.addOverlay(marker);
+		      }
+		    }
+		  );
+		});
+	</script>
+{% endblock %}
+	
+	
+{% block content %}
+	<h1>{{ mapping.stationname }}</h1>
+	
+	<h2>Station: {{ station }}</h2>
+	
+	{% if flash %}
+		<p id="flash">{{ flash }}<p>
+	{% endif %}
+
+	<p>op Pachube: <a href="http://www.pachube.com/feeds/{{ mapping.pachubeid }}">http://www.pachube.com/feeds/{{ mapping.pachubeid }}</a></p>
+
+	<div id="map" style="height: 300px; width: 300px; float: right;"></div>
+	
+	<img src="http://chart.apis.google.com/chart?chs=300x300&amp;chd=t:{% for value in values %}{{ value.value }}{% if not forloop.last %},{% endif %}{% endfor %}&amp;cht=lc&amp;chxt=x,y&amp;chtt={{ "Voorspelde hoeveelheid fijnstof in ug/m3"|urlencode }}&amp;chxl=0:|{% for value in values %}{% if forloop.first %}{{ value.date|date:"j b"|urlencode }}|{% endif %}{% if forloop.last %}{{ value.date|date:"j b"|urlencode }}{% endif %}{% endfor %}|1:|10|30|norm%2050|75|125&amp;chxp=1,10,30,50,75,125">
+	
+	<p style="width: 30em;">Het is mogelijk om via twitter een alarm te ontvangen wanneer de voorspelde waarde voor de volgende dag een bepaalde waarde overschrijdt. Vul hieronder uw gegevens in en de gekozen waarde vanaf welke u op de hoogte gehouden wilt worden.</p>
+	
+	<form method="POST" action="/station/alarm/">
+		<input type="hidden" name="stationid" value="{{ station }}">
+		
+		<label for="twittername">alarm naar twitternaam:</label>
+		<input name="twittername" id="twittername"><br>
+		
+		<label for="threshold">vanaf waarde:</label>
+		<select name="threshold" id="threshold">
+			<option value="30">30</option>
+			<option value="50" selected>50 (Europese norm)</option>
+			<option value="75">75</option>
+			<option value="125">125</option>
+			<option value="200">200</option>
+		</select><br>
+		
+		<input type="submit" value="Sla op">
+	</form>
+	
+	<p><a href="/station/{{ station }}/json/">JSON uitvoer</a></p>
+{% endblock %}

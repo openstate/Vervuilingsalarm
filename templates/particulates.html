@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<h1>Verwachting luchtkwaliteit PM10 (in µg/m3)</h1>
+	
+	<p>Zoals voorspeld door <a href="http://www.lml.rivm.nl/data/verwachting/pm10.html">RIVM</a>.</p>
+	
+	
+	<div>
+		<h2>Intensiteit</h2>
+	
+		<table>
+		<tr><td><div style='width: 15px; height: 10px; background-color: #009900; border:1px solid black'></div><td>&lt;10
+		<tr><td><div style='width: 15px; height: 10px; background-color: #00ff00; border:1px solid black'></div><td>10-30
+		<tr><td><div style='width: 15px; height: 10px; background-color: #ccff66; border:1px solid black'></div><td>30-50
+		<tr><td><div style='width: 15px; height: 10px; background-color: #ffff99; border:1px solid black'></div><td>50-75
+		<tr><td><div style='width: 15px; height: 10px; background-color: #ffff00; border:1px solid black'></div><td>75-125
+		<tr><td><div style='width: 15px; height: 10px; background-color: #ffcc00; border:1px solid black'></div><td>125-200
+		<tr><td><div style='width: 15px; height: 10px; background-color: #ff0000; border:1px solid black'></div><td>&gt;200
+		</table>
+	</div>
+	
+	
+	<ul>
+		{% for map in mappings %}
+			<li><b>{{ map.stationname }}</b> station: <a href="/station/{{ map.stationid }}/">{{ map.stationid }}</a><br>
+				op Pachube <a href="http://www.pachube.com/feeds/{{ map.pachubeid }}">http://www.pachube.com/feeds/{{ map.pachubeid }}</a><br>
+				<img src="http://www.pachube.com/feeds/{{ map.pachubeid }}/datastreams/0/history.png?w=400&h=300"></li>
+		{% endfor %}
+	</ul>
+{% endblock %}

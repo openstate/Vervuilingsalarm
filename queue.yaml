@@ -1,0 +1,5 @@
+queue:
+- name: pachubequeue
+  rate: 10/m
+- name: twitterqueue
+  rate: 10/m

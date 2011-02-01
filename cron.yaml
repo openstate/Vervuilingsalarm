@@ -1,0 +1,8 @@
+cron:
+- description: daily parse of data
+  url: /particulate/parse
+  schedule: every mon,tue,wed,thu,fri,sat,sun of month 15:00
+
+- description: sending of tweets based on data 
+  url: /sendtweets/
+  schedule: every mon,tue,wed,thu,fri,sat,sun of month 15:30

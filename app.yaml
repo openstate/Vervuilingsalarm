@@ -1,0 +1,26 @@
+application: rivmsensor
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /static
+  static_dir: static
+
+- url: /remote_api
+  script: $PYTHON_LIB/google/appengine/ext/remote_api/handler.py
+  login: admin
+
+- url: /particulate/deletefeeds
+  script: particulate.py
+  login: admin
+
+- url: /station/([^/]+?)/updatepachube/
+  script: particulate.py
+  login: admin
+
+- url: /particulate.*
+  script: particulate.py
+
+- url: /.*
+  script: particulate.py

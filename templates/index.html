@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block extrahead %}
+	<script>
+		var stations = [];
+		{% for mapping in mappings %}
+			stations.push("{{ mapping.stationid }}");
+		{% endfor %}
+	
+		function addStation(stationid) {
+			$.getJSON('/station/' + stationid + '/json/', {}, function(data, textStatus) {
+				var lat = data['lat'];
+				var lon = data['lon'];
+				
+				var data = data['data'];
+				
+				var chartURL = 'http://chart.apis.google.com/chart?chs=150x50&chd=t:' + data.join(',') + '&cht=lc&chxt=y'
+				
+				var latlng = new GLatLng(lat, lon);
+				var marker = new GMarker(latlng);
+				
+				GEvent.addListener(marker, "click", function() {					
+				    var myHtml = '<a href="/station/' + stationid + '/">station ' + stationid + '</a><br><img src="' +  chartURL + '">';
+				    
+						map.openInfoWindowHtml(latlng, myHtml);
+				  });
+				
+				map.addOverlay(marker);
+			});
+		}
+		
+		var map = null;
+		var geocoder = null;
+	
+		$(document).ready(function() {
+			map = new GMap2(document.getElementById("map"));
+			
+			var mapControl = new GSmallMapControl();
+			map.addControl(mapControl);
+			
+			geocoder = new GClientGeocoder();
+
+		  geocoder.getLatLng(
+				'Utrecht,the Netherlands',
+		    function(point) {
+		      if (point) {
+		        map.setCenter(point, 7);
+		      }
+		    }
+		  );
+		
+			for (var counter=0; counter < stations.length; counter++) {
+				addStation(stations[counter]);
+			};
+		});
+	</script>
+	
+	<style type="text/css" media="screen">
+		#map { 
+			width: 400px;
+			height: 500px;
+			
+			float: right;
+			
+			margin: 1em;
+		}
+		
+		#stations {
+			font-size: 70%;
+		}
+	</style>
+{% endblock %}
+
+
+{% block content %}
+	<div id="map"></div>
+		
+	<p>Het RIVM publiceert <a href="http://www.lml.rivm.nl/data/verwachting/pm10.html">de verwachte fijnstofwaarde voor de volgende</a> dag voor een serie stations in Nederland.</p>
+	
+	<p>Vervuilingsalarm neemt deze voorspellingen over en:</p>
+	<ul>
+		<li>slaat ze op</li>
+		<li>stuurt ze door naar de interactieve sensorcentrale <a href="http://www.pachube.com">Pachube</a></li>
+		<li>maakt historische grafieken</li>
+		<li>en stuurt kennisgevingen naar geïnteresseerden wanneer een station een vooringestelde waarde overschrijdt</li>
+	</ul>
+	
+	<p>Fijnstof (<a href="http://nl.wikipedia.org/wiki/Fijn_stof">Wikipedia</a>) is een vorm van luchtvervuiling die bestaat uit zwevende deeltjes die kleiner zijn dan 10 micrometer. Inademen van deze deeltjes is schadelijk voor de gezondheid.<br>
+		Volgens de Europese norm mogen er per jaar niet meer dan 35 overschrijdingen van het daggemiddelde van 50 &mu;g/m3 plaatsvinden en vanaf 2010 niet meer dan 7. Vervuilingsalarm houdt u op de hoogte wat de verwachting is voor de fijnstofconcentratie bij u in de buurt.</p>
+	
+	<p id="stations">Metingen voor:
+		{% for mapping in mappings %}
+			<a href="/station/{{ mapping.stationid }}/">{{ mapping.stationname }}</a>
+			
+			{% if not forloop.last %}
+				,
+			{% endif %}
+			
+		{% endfor %}
+	</p>
+	
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p>De gegevens worden elke dag ingelezen van de site van RIVM en daarna zowel opgeslagen in de Google App Engine data store als naar Pachube gestuurd.</p>
+	
+	<p>Vervuilingsalarm biedt via JSON toegang tot deze coordinaten en de complete datareeks via URLs van deze vorm:
+		<blockquote>http://vervuilingsalarm.nl/station/133/json/</blockquote></p>
+		
+	<p>Vervuilingsalarm houdt verder een mapping bij van elke RIVM station met een Pachube sensor node. Pachube heeft een goed <a href="http://community.pachube.com/api">gedocumenteerde API</a> en een verzamelinge werkende voorbeelden. Pachube is ook de leidende plek waar de GPS-coordinaten van elke station liggen opgeslagen.</p>
+{% endblock %}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eeml xmlns="http://www.eeml.org/xsd/005" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5" xsi:schemaLocation="http://www.eeml.org/xsd/005 http://www.eeml.org/xsd/005/005.xsd">
+  <environment>
+    <title>RIVM Dutch PM10 expectations for station {{ station }}</title>
+		<description>Particulate PM10 predictions for station {{ stationname }} (id: {{ station }}) as scraped from: http://www.lml.rivm.nl/data/verwachting/pm10.html</description>
+
+		{% if value %}
+	    <data id="0">
+	      <tag>air quality</tag>
+	      <tag>PM10</tag>
+	      <tag>projection</tag>
+	      <value>{{ value }}</value>
+	    </data>
+		{% endif %}
+  </environment>
+</eeml>

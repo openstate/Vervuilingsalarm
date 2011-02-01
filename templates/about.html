@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p>De <a href="http://www.rivm.nl/">RIVM</a> toont de fijnstofmetingen al op een inzichtelijk wijze op <a href="http://www.lml.rivm.nl/data/verwachting/pm10.html">hun eigen pagina</a> maar niet bijzonder herbruikbaar. Vervuilingsalarm leest dagelijks de voorspelling van het RIVM op en slaat deze op in haar eigen database en herpubliceert deze.</p>
+	
+	<p>De gegevens worden per station opgeslagen in Google App Engine.</p>
+	
+	<p>Elke dag wanneer de gegevens worden ingelezen worden deze tegelijkertijd ook doorgestuurd naar corresponderende <a href="http://www.pachube.com/">Pachube</a> knooppunten. Pachube is een netwerk voor sensoren hun gegevens heen kunnen sturen en waar geïnteresseerde partijen deze gegevens weer kunnen ophalen.</p>
+		
+	<p>De stations worden getoond op een Google Map en het historische verloop van de voorspellingen wordt getekend via de chart API van Google.</p>
+	
+	<p><a href="http://twitter.com/rivmalarm">@rivmalarm</a> is een twitterbot die geïnteresseerde gebruikers berichten stuurt op basis van de nieuwe meetwaarden.</p>
+	
+	<p>uitvoering+concept door <a class="fn url" href="http://tonzijlstra.eu/nl/">Ton Zijlstra</a> en <a class="fn url" href="http://www.lifesized.net/">James Burke</a>, concept+techniek door <a class="fn url" href="http://aardverschuiving.com/">Alper Çugun</a>, design door <a class="url org" href="http://www.buropony.nl/">BUROPONY</a></p>
+{% endblock %}
