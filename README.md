@@ -1,7 +1,7 @@
 Vervuilingsalarm
 ================
 
-Google App Engine site that runs at http://www.vervuilingsalarm.nl to scrape RIVM's predicitions for particulate concentrations and run those to Pachube, graph them and send them to Twitter.
+Google App Engine site that runs at [Vervuilingsalarm.nl](http://www.vervuilingsalarm.nl) to scrape RIVM's predicitions for particulate concentrations and run those to Pachube, graph them and send them to Twitter.
 
 Credits
 -------
